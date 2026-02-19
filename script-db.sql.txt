@@ -1,0 +1,15 @@
+CREATE DATABASE base_nueva_angular;
+
+USE base_nueva_angular;
+
+CREATE TABLE productos (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    precio DOUBLE,
+    stock INT
+);
+
+-- Insertamos los primeros datos.
+
+INSERT INTO productos (nombre, precio, stock) VALUES ('Notebook Pro', 1200.50, 5);
+INSERT INTO productos (nombre, precio, stock) VALUES ('Mouse Gamer', 45.00, 20);
