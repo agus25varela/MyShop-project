@@ -1,17 +1,22 @@
 package com.example.demo.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import com.example.demo.dto.RegisterRequest;
 import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class AuthService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public String register(RegisterRequest request) {
         // 1. Validar si el email ya existe
@@ -24,7 +29,7 @@ public class AuthService {
         user.setName(request.getName());
         user.setEmail(request.getEmail());
         // Encriptar password con BCrypt antes de guardar 
-        user.setPassword(request.getPassword()); 
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(Role.ROLE_USER); // Rol por defecto 
 
         userRepository.save(user);
