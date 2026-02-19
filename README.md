@@ -1,6 +1,6 @@
 # 🛒 MyShop - Sistema de Gestión de Productos
 
-Prueba técnica desarrollada como graduado de **Teclab**. Este sistema permite la gestión integral de productos, conectando un frontend moderno con una arquitectura de backend robusta y persistencia en base de datos.
+Este sistema permite la **gestión integral** de productos, conectando un frontend moderno con una arquitectura de backend robusta y persistencia en base de datos.
 
 ## 🛠️ Tecnologías Utilizadas
 
