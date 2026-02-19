@@ -1,0 +1,22 @@
+<nav class="navbar">
+  <div class="container">
+    <a routerLink="/" class="logo">My<span>Shop</span></a>
+
+    <button class="menu-toggle" (click)="toggleMenu()">
+      ☰
+    </button>
+
+    <ul class="nav-links" [class.active]="isMenuOpen">
+      <li><a routerLink="/products" (click)="isMenuOpen = false">Productos</a></li>
+      <li><a routerLink="/cart" (click)="isMenuOpen = false">Carrito</a></li>
+      
+      <li *ngIf="!isLoggedIn">
+        <a routerLink="/auth/login" class="btn-login">Ingresar</a>
+      </li>
+      
+      <li *ngIf="isLoggedIn">
+        <a routerLink="/favorites" (click)="isMenuOpen = false">❤️ Favoritos</a>
+      </li>
+    </ul>
+  </div>
+</nav>
