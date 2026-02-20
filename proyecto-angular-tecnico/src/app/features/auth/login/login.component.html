@@ -1,0 +1,16 @@
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+  <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px;">
+    <h2 class="text-center mb-4">Iniciar Sesión</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" formControlName="email" class="form-control" [class.is-invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Contraseña</label>
+        <input type="password" formControlName="password" class="form-control" formControlName="password">
+      </div>
+      <button type="submit" class="btn btn-primary w-100" [disabled]="loginForm.invalid">Ingresar</button>
+    </form>
+  </div>
+</div>
