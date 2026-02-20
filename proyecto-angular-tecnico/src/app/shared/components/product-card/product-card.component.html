@@ -1,0 +1,12 @@
+<div class="card">
+  <img [src]="product.imageUrl || 'assets/no-image.png'" [alt]="product.name">
+  <div class="card-body">
+    <h3>{{ product.name }}</h3>
+    <p class="category">{{ product.category }}</p>
+    <p class="price">{{ product.price | currency }}</p>
+    <p class="stock" [class.low]="product.stock < 5">
+      Stock: {{ product.stock }}
+    </p>
+    <button class="btn-add">Añadir al carrito</button>
+  </div>
+</div>

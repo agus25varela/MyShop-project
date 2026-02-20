@@ -3,6 +3,17 @@
 <main class="main-content">
   <h1 class="text-primary">Proyecto Angular - Prueba Técnica</h1>
   <p>La conexión con la base de datos MySQL estará aquí.</p>
+  
+  <!-- Sección de Tarjetas de Producto -->
+  <div class="container mt-5">
+    <h2 class="mb-4">Catálogo de Productos</h2>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4" *ngFor="let product of productosPrueba">
+        <app-product-card [product]="product"></app-product-card>
+      </div>
+    </div>
+  </div>
+
   <div class="container mt-4">
   <div class="card shadow">
     <div class="card-header bg-primary text-white">
