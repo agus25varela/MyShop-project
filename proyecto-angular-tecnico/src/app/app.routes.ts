@@ -1,13 +1,15 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './features/auth/login/login.component';
 import { ProductListComponent } from './features/products/product-list/product-list.component';
+import { authGuard } from './core/guards/auth-guard';
 
 export const routes: Routes = [
   { path: 'auth/login', 
     component: LoginComponent },
 
   { path: 'products', 
-    component: ProductListComponent },
+    component: ProductListComponent,
+  canActivate: [authGuard] }, //Solo entran si están logueados
 
   { path: '', 
     redirectTo: '/auth/login', 

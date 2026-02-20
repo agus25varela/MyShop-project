@@ -22,14 +22,22 @@ export class LoginComponent {
   });
 
   onSubmit() {
-    if (this.loginForm.valid) {
-      this.authService.login(this.loginForm.value).subscribe({
-        next: () => {
-          alert('Login exitoso');
-          this.router.navigate(['/products']); // Redirigir a productos
-        },
-        error: () => alert('Credenciales incorrectas')
-      });
-    }
+  if (this.loginForm.valid) {
+    this.authService.login(this.loginForm.value).subscribe({
+      next: (response) => {
+        console.log('Token recibido:', response.token);
+        // 1. Guardamos el token
+        
+        // 2. Redirigimos al catálogo de productos
+        this.router.navigate(['/products']); 
+        
+        alert('¡Bienvenido!');
+      },
+      error: (err) => {
+        console.error('Error de login:', err);
+        alert('Credenciales incorrectas. Intenta de nuevo.');
+      }
+    });
   }
+}
 }
