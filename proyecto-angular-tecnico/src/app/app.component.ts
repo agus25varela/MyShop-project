@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // Esto arregla el error de ngModel
 import { ProductoService } from './services/producto';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
+import { FooterComponent } from './shared/components/footer/footer.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule, NavbarComponent], // Asegúrate de que FormsModule esté aquí
+  imports: [CommonModule, FormsModule, NavbarComponent, FooterComponent], // Asegúrate de que FormsModule esté aquí
   templateUrl: './app.component.html',
   // Aquí NO debe estar la línea de styleUrl
 })
