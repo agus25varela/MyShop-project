@@ -26,7 +26,7 @@ public class AuthService {
 
         // 2. Crear el nuevo usuario 
         User user = new User();
-        user.setName(request.getName());
+        user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
         // Encriptar password con BCrypt antes de guardar 
         user.setPassword(passwordEncoder.encode(request.getPassword()));

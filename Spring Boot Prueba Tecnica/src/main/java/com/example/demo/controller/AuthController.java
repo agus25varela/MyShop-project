@@ -27,7 +27,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> registrar(@RequestBody User user) {
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-            return ResponseEntity.badRequest().body(new AuthResponse("El email ya existe", null, null));
+            return ResponseEntity.badRequest().body(new AuthResponse("El email ya existe", null, null, null));
         }
 
         // 1. Encriptar la contraseña
@@ -41,11 +41,26 @@ public class AuthController {
         }
 
         userRepository.save(user);
-        return ResponseEntity.ok(new AuthResponse("Usuario registrado con éxito", "temp_token", user.getRole().toString()));
+        return ResponseEntity.ok(new AuthResponse("Usuario registrado con éxito", "temp_token", user.getRole().toString(), user.getUsername()));
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
-        return ResponseEntity.ok(new AuthResponse("Login exitoso", "token_temp", "USER"));
+        return userRepository.findByEmail(loginRequest.getEmail())
+        .map(user -> {
+            // Comparar la contraseña enviada con la encriptada en DB
+            if (passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) { 
+
+                return ResponseEntity.ok(new AuthResponse(
+                    "Login exitoso", 
+                    "token_temp" + user.getId(), // Placeholder de token
+                    user.getRole().name(), 
+                    user.getUsername()
+                ));
+            } else {
+                return ResponseEntity.status(401).body("Contraseña incorrecta");
+            }
+        })
+        .orElse(ResponseEntity.status(404).body("Usuario no encontrado"));
     }
 }

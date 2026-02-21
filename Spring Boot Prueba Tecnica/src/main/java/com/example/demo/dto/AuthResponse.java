@@ -4,15 +4,20 @@ public class AuthResponse {
     private String message;
     private String token;
     private String role;
+    private String username;
 
     public AuthResponse() {
     }
 
-    public AuthResponse(String message, String token, String role) {
+    public AuthResponse(String message, String token, String role, String username) {
         this.message = message;
         this.token = token;
         this.role = role;
+        this.username = username;
     }
+
+    public String getUsername() { 
+        return username; }
 
     public String getMessage() {
         return message;

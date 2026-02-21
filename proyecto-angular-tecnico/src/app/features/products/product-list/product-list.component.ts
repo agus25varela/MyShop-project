@@ -3,10 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; 
 import { Product } from '../../../shared/components/product-card/product.model';
 import { ProductCardComponent } from '../../../shared/components/product-card/product-card.component';
-import { ProductoService } from '../../../services/producto';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
-import { ProductService } from '../../../core/services/product.service';
+import { ProductService } from '../../../services/producto';
 
 @Component({
   selector: 'app-product-list',
@@ -25,7 +24,7 @@ export class ProductListComponent implements OnInit {
   // Control de acceso simple para mostrar panel de administración
   isLoggedIn = false;
 
-  nuevoProducto = {
+  nuevoProducto: { nombre: string; precio: number; stock: number } = {
     nombre: '',
     precio: 0,
     stock: 0,
@@ -52,7 +51,7 @@ export class ProductListComponent implements OnInit {
     }
   ];
 
-  constructor(private productoService: ProductoService) {}
+  constructor() {}
 
   ngOnInit(): void {
     this.isLoggedIn = this.authService.isLoggedIn();
@@ -60,15 +59,15 @@ export class ProductListComponent implements OnInit {
   }
 
   obtenerProductos() {
-    this.productoService.listar().subscribe((data: any[]) => {
+    this.productService.listar().subscribe((data: any[]) => {
       this.productosReales = data;
     });
   }
 
   cargarProductos(): void {
-    this.productService.getProducts().subscribe({
-      next: (data) => this.productosReales = data,
-      error: (err) => console.error('Error cargando productos', err)
+    this.productService.listar().subscribe({
+      next: (data: any[]) => this.productosReales = data,
+      error: (err: unknown) => console.error('Error cargando productos', err)
     });
   }
 
@@ -86,13 +85,13 @@ export class ProductListComponent implements OnInit {
 
   guardar() {
     if (this.nuevoProducto.nombre && this.nuevoProducto.precio > 0) {
-      this.productoService.crear(this.nuevoProducto).subscribe({
+      this.productService.crear(this.nuevoProducto).subscribe({
         next: () => {
           this.obtenerProductos(); // Recargamos la lista
           this.nuevoProducto = { nombre: '', precio: 0, stock: 0 };
           alert('Producto guardado correctamente');
         },
-        error: (err) => alert('Error al guardar en base de datos')
+        error: (_err: unknown) => alert('Error al guardar en base de datos')
       });
   }
 }

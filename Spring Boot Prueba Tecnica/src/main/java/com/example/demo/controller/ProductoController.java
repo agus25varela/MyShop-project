@@ -15,7 +15,7 @@ import com.example.demo.repository.ProductoRepository;
 
 @RestController
 @RequestMapping("/api/productos")
-@CrossOrigin(origins = "http://localhost:4200") //Conexion con Angular
+@CrossOrigin(originPatterns = {"http://localhost:*", "http://127.0.0.1:*"}) // Conexion con Angular en cualquier puerto local
 public class ProductoController {
 
     @Autowired

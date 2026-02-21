@@ -25,8 +25,16 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
     
-    private String name;
+    private String username;
     private String password;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
     
     @Enumerated(EnumType.STRING)
     private Role role; // ROLE_USER, ROLE_ADMIN 
