@@ -28,7 +28,9 @@ export class LoginComponent {
       next: (response) => {
         console.log('Login exitoso:', response.token);
         // 1. Guardamos el token
-        
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('role', response.rol); 
+        localStorage.setItem('username', response.username);
         // 2. Redirigimos al catálogo de productos
         this.router.navigate(['/products']); 
         

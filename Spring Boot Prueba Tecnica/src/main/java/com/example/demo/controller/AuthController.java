@@ -49,7 +49,7 @@ public class AuthController {
         return userRepository.findByEmail(loginRequest.getEmail())
         .map(user -> {
             // Comparar la contraseña enviada con la encriptada en DB
-            if (passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) { 
+            if (passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
 
                 return ResponseEntity.ok(new AuthResponse(
                     "Login exitoso", 

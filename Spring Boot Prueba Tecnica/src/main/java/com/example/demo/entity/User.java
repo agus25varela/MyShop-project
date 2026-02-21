@@ -24,8 +24,10 @@ public class User {
     
     @Column(unique = true, nullable = false)
     private String email;
-    
+
+    @Column(name = "name") 
     private String username;
+    
     private String password;
 
     public String getUsername() {
