@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; 
 import { Product } from '../../../shared/components/product-card/product.model';
 import { ProductCardComponent } from '../../../shared/components/product-card/product-card.component';
 import { ProductoService } from '../../../services/producto';
+import { Router } from '@angular/router';
+import { AuthService } from '../../../core/services/auth.service';
+import { ProductService } from '../../../core/services/product.service';
 
 @Component({
   selector: 'app-product-list',
@@ -13,7 +16,11 @@ import { ProductoService } from '../../../services/producto';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit {
-  productosReales: any[] = [];
+    private authService = inject(AuthService);
+    private productService = inject(ProductService);
+    private router = inject(Router);
+  
+    productosReales: any[] = [];
 
   // Control de acceso simple para mostrar panel de administración
   isLoggedIn = false;
@@ -48,7 +55,8 @@ export class ProductListComponent implements OnInit {
   constructor(private productoService: ProductoService) {}
 
   ngOnInit(): void {
-    this.obtenerProductos();
+    this.isLoggedIn = this.authService.isLoggedIn();
+    this.cargarProductos();
   }
 
   obtenerProductos() {
@@ -57,15 +65,35 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  guardar() {
-    this.productoService.crear(this.nuevoProducto).subscribe(() => {
-      this.obtenerProductos();
-      this.nuevoProducto = { nombre: '', precio: 0, stock: 0 };
+  cargarProductos(): void {
+    this.productService.getProducts().subscribe({
+      next: (data) => this.productosReales = data,
+      error: (err) => console.error('Error cargando productos', err)
     });
   }
 
-  // Handler auxiliar (placeholder) para acciones desde las tarjetas
-  handleCart(product: any) {
-    console.log('Agregar al carrito:', product);
+  // LÓGICA DEL CARRITO
+  addToCart(product: any): void {
+    if (!this.isLoggedIn) {
+      alert('Debes iniciar sesión para añadir productos al carrito.');
+      this.router.navigate(['/auth/login']); // Redirigimos al login
+    } else {
+      // Aquí iría la lógica real (ej: llamar a un CartService)
+      console.log('Añadiendo al carrito:', product);
+      alert(`¡${product.nombre} añadido al carrito con éxito!`);
+    }
   }
+
+  guardar() {
+    if (this.nuevoProducto.nombre && this.nuevoProducto.precio > 0) {
+      this.productoService.crear(this.nuevoProducto).subscribe({
+        next: () => {
+          this.obtenerProductos(); // Recargamos la lista
+          this.nuevoProducto = { nombre: '', precio: 0, stock: 0 };
+          alert('Producto guardado correctamente');
+        },
+        error: (err) => alert('Error al guardar en base de datos')
+      });
+  }
+}
 }
