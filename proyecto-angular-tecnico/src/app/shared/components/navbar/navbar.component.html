@@ -10,13 +10,15 @@
       <li><a routerLink="/products" (click)="isMenuOpen = false">Productos</a></li>
       <li><a routerLink="/cart" (click)="isMenuOpen = false">Carrito</a></li>
       
-      <li *ngIf="!isLoggedIn">
-        <a routerLink="/auth/login" class="btn-login">Ingresar</a>
-      </li>
-      
-      <li *ngIf="isLoggedIn">
-        <a routerLink="/favorites" (click)="isMenuOpen = false">❤️ Favoritos</a>
-      </li>
+      @if (!authService.isLoggedIn()) {
+        <a class="btn btn-outline-light ms-2" routerLink="/auth/login">Ingresar</a>
+        <a class="btn btn-primary ms-2" routerLink="/auth/register">Registrarse</a>
+      } 
+      @else {
+        <span class="text-white ms-3">👋 Hola, {{ authService.getUserName() }}</span>
+
+        <button class="btn btn-danger btn-sm ms-3" (click)="logout()">Cerrar Sesión</button>
+      }
     </ul>
   </div>
 </nav>

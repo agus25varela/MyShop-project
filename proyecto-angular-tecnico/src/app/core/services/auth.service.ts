@@ -13,16 +13,36 @@ export class AuthService {
         if (res.token) {
           localStorage.setItem('token', res.token); // Guarda el JWT
         }
+        if (res.username) {
+          localStorage.setItem('username', res.username);
+        }
+        if (res.role) {
+          localStorage.setItem('role', res.role);
+        }
       })
     );
   }
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    localStorage.removeItem('role');
   }
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
+  }
+
+  getUsername(): string {
+    return localStorage.getItem('username') ?? '';
+  }
+
+  getUserName(): string {
+    return this.getUsername();
+  }
+
+  getRole(): string {
+    return localStorage.getItem('role') ?? '';
   }
   
   register(userData: any): Observable<any> {

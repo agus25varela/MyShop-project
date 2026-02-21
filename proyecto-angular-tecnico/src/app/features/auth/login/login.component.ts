@@ -26,13 +26,13 @@ export class LoginComponent {
   if (this.loginForm.valid) {
     this.authService.login(this.loginForm.value).subscribe({
       next: (response) => {
-        console.log('Token recibido:', response.token);
+        console.log('Login exitoso:', response.token);
         // 1. Guardamos el token
         
         // 2. Redirigimos al catálogo de productos
         this.router.navigate(['/products']); 
         
-        alert('¡Bienvenido!');
+        alert('¡Bienvenido, ' + response.username + '!');
       },
       error: (err) => {
         console.error('Error de login:', err);

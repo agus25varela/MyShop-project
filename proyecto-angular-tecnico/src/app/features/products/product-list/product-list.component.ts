@@ -83,6 +83,10 @@ export class ProductListComponent implements OnInit {
     }
   }
 
+  handleAddToCart(product: any): void {
+    this.addToCart(product);
+  }
+
   guardar() {
     if (this.nuevoProducto.nombre && this.nuevoProducto.precio > 0) {
       this.productService.crear(this.nuevoProducto).subscribe({

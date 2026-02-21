@@ -7,6 +7,8 @@
     <p class="stock" [class.low]="product.stock < 5">
       Stock: {{ product.stock }}
     </p>
-    <button class="btn-add">Añadir al carrito</button>
+    <button class="btn btn-primary w-100" (click)="onAdd()">
+  Añadir al carrito
+</button>
   </div>
 </div>

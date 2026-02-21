@@ -30,17 +30,25 @@ export class AuthService {
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
   }
+  
+  
+  // 4. Obtener el nombre de usuario para mostrarlo en la navbar
+  getUsername(): string | null {
+  return localStorage.getItem('username');
+}
 
-  // 4. Obtener el rol para saber si es ADMIN
+  // 5. Obtener el rol para saber si es ADMIN
   getRole(): string | null {
     return localStorage.getItem('role');
   }
 
+  
+  // 6. Verificar si el usuario es ADMIN
   isAdmin(): boolean {
     return this.getRole() === 'ADMIN';
   }
 
-  // 5. Cerrar sesión
+  // 7. Cerrar sesión
   logout(): void {
     localStorage.clear();
     window.location.reload(); // Recarga para limpiar el estado de la app
