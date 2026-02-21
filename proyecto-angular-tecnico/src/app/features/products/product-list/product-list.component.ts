@@ -5,7 +5,8 @@ import { Product } from '../../../shared/components/product-card/product.model';
 import { ProductCardComponent } from '../../../shared/components/product-card/product-card.component';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
-import { ProductService } from '../../../services/producto';
+import { ProductService } from '../../../core/services/product.service';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-product-list',
@@ -20,6 +21,7 @@ export class ProductListComponent implements OnInit {
     private router = inject(Router);
   
     productosReales: any[] = [];
+    isLoading: boolean = true;
 
   // Control de acceso simple para mostrar panel de administración
   isLoggedIn = false;
@@ -51,23 +53,27 @@ export class ProductListComponent implements OnInit {
     }
   ];
 
-  constructor() {}
+  constructor(
+  private cdr: ChangeDetectorRef 
+) {}
 
   ngOnInit(): void {
     this.isLoggedIn = this.authService.isLoggedIn();
-    this.cargarProductos();
+    this.obtenerProductos();
   }
 
-  obtenerProductos() {
-    this.productService.listar().subscribe((data: any[]) => {
-      this.productosReales = data;
-    });
-  }
-
-  cargarProductos(): void {
+  obtenerProductos(): void {
+    this.isLoading = true;
     this.productService.listar().subscribe({
-      next: (data: any[]) => this.productosReales = data,
-      error: (err: unknown) => console.error('Error cargando productos', err)
+      next: (data: any[]) => {
+        this.productosReales = data;
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      },
+      error: (err: unknown) => {
+        console.error('Error al conectar con el servidor de productos:', err);
+        this.isLoading = false;
+      }
     });
   }
 

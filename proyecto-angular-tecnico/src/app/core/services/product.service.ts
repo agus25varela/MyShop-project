@@ -15,7 +15,7 @@ export class ProductService {
     return this.http.get<any[]>(this.apiUrl);
   }
 
-  // Obtener datos (GET) - alias
+  // Obtener datos (GET) 
   getProducts(): Observable<any[]> {
     return this.listar();
   }
