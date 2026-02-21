@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './features/auth/login/login.component';
 import { RegisterComponent } from './features/auth/register/register.component';
+import { ForgotPasswordComponent } from './features/auth/forgot-password/forgot-password.component';
 import { ProductListComponent } from './features/products/product-list/product-list.component';
 import { authGuard } from './core/guards/auth-guard';
 
@@ -10,6 +11,9 @@ export const routes: Routes = [
 
   { path: 'auth/register', 
     component: RegisterComponent },
+
+  { path: 'auth/forgot-password', 
+    component: ForgotPasswordComponent },
 
   { path: 'products', 
     component: ProductListComponent},

@@ -7,8 +7,6 @@
     </button>
 
     <ul class="nav-links" [class.active]="isMenuOpen">
-      <li><a routerLink="/products" (click)="isMenuOpen = false">Productos</a></li>
-      
       @if (!authService.isLoggedIn()) {
         <a class="btn btn-outline-light ms-2" routerLink="/auth/login">Ingresar</a>
         <a class="btn btn-primary ms-2" routerLink="/auth/register">Registrarse</a>

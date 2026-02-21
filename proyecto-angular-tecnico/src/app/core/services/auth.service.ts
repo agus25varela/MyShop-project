@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable, map, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -48,5 +48,11 @@ export class AuthService {
   register(userData: any): Observable<any> {
   return this.http.post('http://localhost:8080/api/auth/register', userData);
 }
+
+  checkEmailExists(email: string): Observable<boolean> {
+    return this.http
+      .get<{ exists: boolean }>(`${this.apiUrl}/email-exists?email=${encodeURIComponent(email)}`)
+      .pipe(map((response) => response.exists));
+  }
 
 }

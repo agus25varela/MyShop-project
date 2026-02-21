@@ -1,11 +1,15 @@
 package com.example.demo.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.AuthResponse;
@@ -23,6 +27,12 @@ public class AuthController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @GetMapping("/email-exists")
+    public ResponseEntity<Map<String, Boolean>> emailExists(@RequestParam String email) {
+        boolean exists = userRepository.findByEmail(email).isPresent();
+        return ResponseEntity.ok(Map.of("exists", exists));
+    }
 
     @PostMapping("/register")
     public ResponseEntity<?> registrar(@RequestBody User user) {
