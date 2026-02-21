@@ -15,6 +15,9 @@ import { ProductoService } from '../../../services/producto';
 export class ProductListComponent implements OnInit {
   productosReales: any[] = [];
 
+  // Control de acceso simple para mostrar panel de administración
+  isLoggedIn = false;
+
   nuevoProducto = {
     nombre: '',
     precio: 0,
@@ -59,5 +62,10 @@ export class ProductListComponent implements OnInit {
       this.obtenerProductos();
       this.nuevoProducto = { nombre: '', precio: 0, stock: 0 };
     });
+  }
+
+  // Handler auxiliar (placeholder) para acciones desde las tarjetas
+  handleCart(product: any) {
+    console.log('Agregar al carrito:', product);
   }
 }
