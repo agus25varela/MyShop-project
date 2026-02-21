@@ -24,7 +24,9 @@ export class ProductListComponent implements OnInit {
     isLoading: boolean = true;
 
   // Control de acceso simple para mostrar panel de administración
-  isLoggedIn = false;
+  get isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
+  }
 
   nuevoProducto: { nombre: string; precio: number; stock: number } = {
     nombre: '',
@@ -58,7 +60,6 @@ export class ProductListComponent implements OnInit {
 ) {}
 
   ngOnInit(): void {
-    this.isLoggedIn = this.authService.isLoggedIn();
     this.obtenerProductos();
   }
 
@@ -79,7 +80,8 @@ export class ProductListComponent implements OnInit {
 
   // LÓGICA DEL CARRITO
   addToCart(product: any): void {
-    if (!this.isLoggedIn) {
+    // Verificar el estado actual de autenticación en tiempo real
+    if (!this.authService.isLoggedIn()) {
       alert('Debes iniciar sesión para añadir productos al carrito.');
       this.router.navigate(['/auth/login']); // Redirigimos al login
     } else {

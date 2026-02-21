@@ -15,12 +15,16 @@ export const routes: Routes = [
     component: ProductListComponent},
     //canActivate: [authGuard] , //Solo entran si están logueados
 
+  { path: 'cart', 
+    redirectTo: 'products', 
+    pathMatch: 'full' },
+
   { path: '', 
     redirectTo: 'products', 
     pathMatch: 'full' },
     
   { 
     path: '**', 
-    redirectTo: 'auth/login' 
-  } //que el login sea lo primero que se vea
+    redirectTo: 'products' 
+  } //Redirige rutas no encontradas a productos
 ];
