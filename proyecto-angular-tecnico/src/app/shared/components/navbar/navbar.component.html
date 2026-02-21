@@ -8,16 +8,24 @@
 
     <ul class="nav-links" [class.active]="isMenuOpen">
       <li><a routerLink="/products" (click)="isMenuOpen = false">Productos</a></li>
-      <li><a routerLink="/cart" (click)="isMenuOpen = false">Carrito</a></li>
       
       @if (!authService.isLoggedIn()) {
         <a class="btn btn-outline-light ms-2" routerLink="/auth/login">Ingresar</a>
         <a class="btn btn-primary ms-2" routerLink="/auth/register">Registrarse</a>
       } 
       @else {
-        <span class="text-white ms-3">👋 Hola, {{ authService.getUserName() }}</span>
-
-        <button class="btn btn-danger btn-sm ms-3" (click)="logout()">Cerrar Sesión</button>
+        <li class="user-menu-container">
+          <button class="user-menu-btn" (click)="toggleUserMenu()">
+            👋 Hola, {{ authService.getUserName() }}
+            <span class="dropdown-arrow">▼</span>
+          </button>
+          @if (isUserMenuOpen) {
+            <ul class="user-dropdown">
+              <li><a (click)="navigateToCart()">🛒 Mi Carrito</a></li>
+              <li><a class="logout-option" (click)="logout()">Cerrar Sesión</a></li>
+            </ul>
+          }
+        </li>
       }
     </ul>
   </div>
