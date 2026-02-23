@@ -11,4 +11,6 @@ import com.example.demo.entity.User;
 public interface UserRepository extends JpaRepository<User, Long> {
     // Método necesario para la autenticación y validación de emails únicos 
     Optional<User> findByEmail(String email);
+
+    public boolean existsByEmail(String email);
 }

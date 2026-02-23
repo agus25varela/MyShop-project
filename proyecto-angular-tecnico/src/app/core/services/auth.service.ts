@@ -50,9 +50,7 @@ export class AuthService {
 }
 
   checkEmailExists(email: string): Observable<boolean> {
-    return this.http
-      .get<{ exists: boolean }>(`${this.apiUrl}/email-exists?email=${encodeURIComponent(email)}`)
-      .pipe(map((response) => response.exists));
+    return this.http.get<boolean>(`${this.apiUrl}/check-email?email=${encodeURIComponent(email)}`);
   }
 
 }

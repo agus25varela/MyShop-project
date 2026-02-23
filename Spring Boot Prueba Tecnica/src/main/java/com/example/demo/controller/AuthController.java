@@ -1,7 +1,5 @@
 package com.example.demo.controller;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,11 +26,11 @@ public class AuthController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @GetMapping("/email-exists")
-    public ResponseEntity<Map<String, Boolean>> emailExists(@RequestParam String email) {
-        boolean exists = userRepository.findByEmail(email).isPresent();
-        return ResponseEntity.ok(Map.of("exists", exists));
-    }
+    @GetMapping("/check-email") 
+    public ResponseEntity<Boolean> checkEmail(@RequestParam String email) {
+    boolean exists = userRepository.existsByEmail(email);
+    return ResponseEntity.ok(exists);
+}
 
     @PostMapping("/register")
     public ResponseEntity<?> registrar(@RequestBody User user) {

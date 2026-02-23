@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import emailjs from '@emailjs/browser';
 import { AuthService } from '../../../core/services/auth.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-forgot-password',
@@ -13,6 +14,7 @@ import { AuthService } from '../../../core/services/auth.service';
   styleUrl: './forgot-password.component.css'
 })
 export class ForgotPasswordComponent {
+  private cdr = inject(ChangeDetectorRef);
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
 
@@ -36,41 +38,54 @@ export class ForgotPasswordComponent {
     const email = this.forgotForm.value.email ?? '';
     this.isLoading = true;
 
-    this.authService.checkEmailExists(email).subscribe({
+    this.authService.checkEmailExists(email)
+    .pipe(
+      finalize(() => {
+        // Esto se ejecuta SIEMPRE: cuando termina bien o cuando da error
+        this.isLoading = false; 
+      })
+    ).subscribe({
       next: (exists) => {
-        if (!exists) {
+        console.log('¿Existe el email?:', exists);
+        if (exists === false || !exists) {
           this.isLoading = false;
-          this.errorMessage = 'El correo no está registrado en la base de datos.';
+          this.errorMessage = 'El correo no está registrado.';
+          this.successMessage = '';
+          this.cdr.detectChanges();
           return;
         }
 
-        const resetLink = `${window.location.origin}/auth/login?recovery=true`;
-
-        emailjs
-          .send(
-            'YOUR_EMAILJS_SERVICE_ID',
-            'YOUR_EMAILJS_TEMPLATE_ID',
-            {
-              to_email: email,
-              reset_link: resetLink
-            },
-            'YOUR_EMAILJS_PUBLIC_KEY'
-          )
-          .then(() => {
-            this.successMessage = 'Enlace de recuperación enviado al correo.';
-            this.forgotForm.reset();
-          })
-          .catch(() => {
-            this.errorMessage = 'No se pudo enviar el correo. Revisa la configuración de EmailJS.';
-          })
-          .finally(() => {
-            this.isLoading = false;
-          });
+        this.procederConEnvioEmail(email);
       },
-      error: () => {
-        this.isLoading = false;
-        this.errorMessage = 'No fue posible validar el correo en el servidor.';
+      error: (err) => {
+        console.error('Error al validar email:', err);
+        this.isLoading = false; 
+        this.errorMessage = 'No se pudo conectar con el servidor para validar el correo.';
+        this.cdr.detectChanges();
       }
     });
-  }
+}
+
+private procederConEnvioEmail(email: string): void {
+  const resetLink = `${window.location.origin}/auth/login?recovery=true`;
+
+  emailjs.send(
+    'service_up2mads',
+    'template_wm03r0p',
+    { to_email: email, reset_link: resetLink },
+    'Nsta1wQrvhCYsmFzi'
+  )
+  .then(() => {
+    this.successMessage = '¡Enlace enviado! Revisa tu bandeja de entrada.';
+    this.forgotForm.reset();
+  })
+  .catch((error) => {
+    console.error('Error de EmailJS:', error);
+    this.errorMessage = 'Error al enviar el correo. Revisa tu conexión.';
+  })
+  .finally(() => {
+    // Apagamos el spinner al final del proceso de EmailJS
+    this.isLoading = false;
+  });
+}
 }

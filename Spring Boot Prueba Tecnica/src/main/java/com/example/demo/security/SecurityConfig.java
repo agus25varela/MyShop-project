@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -25,12 +26,11 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable()) // Desactivado para JWT 
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless 
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**").permitAll() // Registro y Login libres 
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/auth/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll() // Registro y Login libres 
                 .requestMatchers("/api/productos/**").permitAll() // Permitir acceso a productos sin autenticación
                 .anyRequest().authenticated()
-            )
-            .sessionManagement(session -> session
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // JWT es stateless
             );
         
         return http.build();
