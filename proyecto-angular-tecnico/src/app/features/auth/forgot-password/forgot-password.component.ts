@@ -46,7 +46,6 @@ export class ForgotPasswordComponent {
       })
     ).subscribe({
       next: (exists) => {
-        console.log('¿Existe el email?:', exists);
         if (exists === false || !exists) {
           this.isLoading = false;
           this.errorMessage = 'El correo no está registrado.';

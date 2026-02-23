@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,6 +32,19 @@ public class AuthController {
     public ResponseEntity<Boolean> checkEmail(@RequestParam String email) {
     boolean exists = userRepository.existsByEmail(email);
     return ResponseEntity.ok(exists);
+}
+
+@PostMapping("/reset-password")
+public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> request) {
+    String email = request.get("email");
+    String newPassword = request.get("password");
+
+    return userRepository.findByEmail(email).map(user -> {
+        // Encriptamos la nueva contraseña antes de guardar
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+        return ResponseEntity.ok("Contraseña actualizada con éxito");
+    }).orElse(ResponseEntity.status(404).body("Usuario no encontrado"));
 }
 
     @PostMapping("/register")
