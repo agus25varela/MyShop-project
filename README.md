@@ -47,6 +47,9 @@ com.tuapp
 /src/app
 ├── core/         # Servicios, Guards e Interceptors 
 ├── shared/       # Componentes reutilizables (Navbar, Cards, Inputs) 
-└── features/     # Módulos: auth, products, cart, favorites 
+└── features/     # Módulos: auth, products, card, favorites 
 
-🚀 Instalación y Uso1. Base de DatosConfigura tu esquema en MySQL e importa las tablas requeridas (users, products, carts, etc.). Asegúrate de actualizar el application.properties con tus credenciales.2. BackendNavega a la carpeta del backend.Ejecuta: ./mvnw spring-boot:run.El servidor iniciará en http://localhost:8080.3. FrontendNavega a la carpeta proyecto-angular-tecnico.Instala dependencias: npm install.Inicia la app: ng serve.Abre http://localhost:4200.
+🚀 Instalación y Uso
+1. Base de Datos: Configura tu esquema en MySQL e importa las tablas requeridas (users, products, cards, etc.). Asegúrate de actualizar el application.properties con tus credenciales.
+2. Backend: Navega a la carpeta del backend. Ejecuta: ./mvnw spring-boot:run. El servidor iniciará en http://localhost:8080.
+3. Frontend: Navega a la carpeta proyecto-angular-tecnico. Instala dependencias: npm install. Inicia la app: ng serve. Abre http://localhost:4200.
