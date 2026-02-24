@@ -53,4 +53,12 @@ export class AuthService {
     localStorage.clear();
     window.location.reload(); // Recarga para limpiar el estado de la app
   }
+
+  // 8. Método con el que enviamos la nueva clave al AuthController.java
+  updatePassword(email: string, newPassword: string): Observable<any> {
+  return this.http.post(`${this.apiUrl}/reset-password`, { 
+    email: email, 
+    password: newPassword 
+  });
+}
 }

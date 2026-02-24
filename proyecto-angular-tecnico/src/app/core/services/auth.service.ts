@@ -53,4 +53,10 @@ export class AuthService {
     return this.http.get<boolean>(`${this.apiUrl}/check-email?email=${encodeURIComponent(email)}`);
   }
 
+  updatePassword(email: string, password: string): Observable<string> {
+    return this.http.post(`${this.apiUrl}/reset-password`, { email, password }, {
+      responseType: 'text'
+    });
+  }
+
 }

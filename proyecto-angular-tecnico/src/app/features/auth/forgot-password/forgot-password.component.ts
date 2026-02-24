@@ -66,7 +66,8 @@ export class ForgotPasswordComponent {
 }
 
 private procederConEnvioEmail(email: string): void {
-  const resetLink = `${window.location.origin}/auth/login?recovery=true`;
+  const encodedEmail = encodeURIComponent(email.trim());
+  const resetLink = `${window.location.origin}/auth/login?recovery=true&email=${encodedEmail}`; //Cuando el usuario haga clic, Angular sabrá exactamente a qué cuenta aplicarle la nueva contraseña.
 
   emailjs.send(
     'service_up2mads',

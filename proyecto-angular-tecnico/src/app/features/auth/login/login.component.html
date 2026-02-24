@@ -1,6 +1,25 @@
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
   <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px;">
-    <h2 class="text-center mb-4">Iniciar Sesión</h2>
+    @if (isRecoveryMode) {
+      <h2 class="text-center mb-4">Nueva Contraseña</h2>
+      <p class="text-center text-muted small">Restableciendo para: <br> <strong>{{ userEmail }}</strong></p>
+      
+      <div class="mb-4">
+        <label class="form-label">Nueva Contraseña</label>
+        <input type="password" [(ngModel)]="newPassword" class="form-control" placeholder="Escribe tu nueva clave">
+      </div>
+
+      <button type="button" class="btn btn-success w-100 mb-3" (click)="onResetPassword()" [disabled]="!newPassword">
+        Actualizar y Guardar
+      </button>
+
+      <div class="text-center">
+        <a href="javascript:void(0)" (click)="isRecoveryMode = false">Cancelar</a>
+      </div>
+    } 
+
+    @else {
+      <h2 class="text-center mb-4">Iniciar Sesión</h2>
     
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div class="mb-3">
@@ -29,5 +48,6 @@
         </button>
       </div>
     </form>
+  }
   </div>
 </div>
