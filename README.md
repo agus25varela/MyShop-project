@@ -10,7 +10,6 @@ Este proyecto es una plataforma integral de gestión de productos y compras que 
 * **Base de Datos:** [MySQL 8+](https://www.mysql.com/) con **JPA/Hibernate**
 * **Diseño:** Responsive UI con **Flexbox/Grid** (Mobile First)
 
----
 
 ## ✨ Funcionalidades Implementadas
 
@@ -28,7 +27,6 @@ Este proyecto es una plataforma integral de gestión de productos y compras que 
 * **Carrito de Compras:** Gestión de ítems con persistencia y cálculo automático de subtotales/envío
 * **Checkout:** Proceso de compra transaccional (`@Transactional`) con validación de stock
 
----
 
 ## 📂 Estructura del Proyecto
 
