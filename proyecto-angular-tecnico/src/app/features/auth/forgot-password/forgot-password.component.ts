@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import emailjs from '@emailjs/browser';
 import { AuthService } from '../../../core/services/auth.service';
 import { finalize } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-forgot-password',
@@ -67,7 +68,7 @@ export class ForgotPasswordComponent {
 
 private procederConEnvioEmail(email: string): void {
   const encodedEmail = encodeURIComponent(email.trim());
-  const resetLink = `${window.location.origin}/auth/login?recovery=true&email=${encodedEmail}`; //Cuando el usuario haga clic, Angular sabrá exactamente a qué cuenta aplicarle la nueva contraseña.
+  const resetLink = `${environment.baseUrl}/auth/login?recovery=true&email=${encodedEmail}`; //Cuando el usuario haga clic, Angular sabrá exactamente a qué cuenta aplicarle la nueva contraseña.
 
   emailjs.send(
     'service_up2mads',
